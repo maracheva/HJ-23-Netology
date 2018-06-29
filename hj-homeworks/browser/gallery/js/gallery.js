@@ -19,30 +19,33 @@ function prevPhoto() {
     if (i <= 0) {
       i = imgArray.length - 1;
     } else {
-      --i;
+      i--;
     }
+    currentPhoto.src = `i/${imgArray[i]}`;
 }
 
 function nextPhoto() {
     if (i >= imgArray.length - 1) {
         i = 0;
     } else {
-        ++i;
+        i++;
     }
+    currentPhoto.src = `i/${imgArray[i]}`;
 }
 
-function setCurrentPhoto() {
-    currentPhoto.src = `i/${imgArray[i]}.jpg`;
-}
+prevBtn.onclick = prevPhoto;
+nextBtn.onclick = nextPhoto;
 
-prevBtn.onclick = function () {
-    prevPhoto()
-    setCurrentPhoto();
-}
+//prevBtn.onclick = function () {
+//    prevPhoto();
+//}
 
-nextBtn.onclick = function () {
-    nextPhoto()
-    setCurrentPhoto();
-}
+//nextBtn.onclick = function () {
+//    nextPhoto();
+//}
+
+
+
+
 
 
