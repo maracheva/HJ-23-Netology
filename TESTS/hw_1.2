@@ -1,0 +1,27 @@
+Тест к занятию «Способы поиска нужного HTML-элемента»
+
+1. Почему не стоит использовать функции взаимодействия с пользователем alert, prompt и confirm?
+Правильный ответ: Все варианты, кроме первого
+
+2. Для получения коллекции элементов соответствующие тегам a на странице подойдет:
+Правильный ответ: const links = document.getElementsByTagName('a');
+
+3. Какой из примеров приведет к ошибке, учитывая что const items = document.getElementsByClassName('item'); и тегов с классом item на странице 12:
+Правильный ответ: const mainItem = items.find(item => item.classList.contains('main'));
+
+4. Что будет в переменных menu, buttons и items если учесть что в документе нет тегов с идентификатором menu, тегов button и тегов с классом items?
+const menu = document.getElementById('menu');
+const buttons = document.getElementsByTagName('buttons');
+const items = document.getElementsByClassName('items');
+
+Правильный ответ: В menu будет null, в buttons и items пустая коллекция HTML-элементов
+
+5. Данный код связывает тег audio с кнопкой «Играть» с классом play-button. Какая ошибки допущена в этом коде?
+const player = document.getElementsByTagName('audio')[0];
+const button = document.getElementsByClassName('play-button');
+button.onclick = function () {
+  const method = player.classList.contains('is-playing') ? 'pause' : 'play';
+  this.classList.toggle('is-playing');
+  player[method]();
+}
+Правильный ответ: button является коллекцией HTML-элементов, и присвоение в свойство onclick функции не даст ожидаемого результата
