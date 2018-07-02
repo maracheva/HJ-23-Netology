@@ -5,10 +5,8 @@ const drumButtons = document.getElementsByClassName('drum-kit__drum');
 
 // проходимся циклом по каждой кнопке
 for (let btn of drumButtons) {
-    btn.onclick = () => {
+    btn.onclick = function() {
         const player = this.getElementsByTagName('audio')[0];
         player.play();
     }
 }
-
-console.log('test');
