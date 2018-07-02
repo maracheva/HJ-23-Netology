@@ -11,3 +11,4 @@ for (let btn of drumButtons) {
     }
 }
 
+console.log('test');
