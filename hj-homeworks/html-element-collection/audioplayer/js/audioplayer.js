@@ -30,7 +30,7 @@ stopBtn.onclick = () => {
 
 let index = 0; // счетчик
 // Change Song of mp3List
-const currentSong = () => {
+function currentSong() {
     audio.src = `./mp3/${mp3List[index]}`; // текущий трэк
     title.title = mp3List[index]; // название текущего трэка
 
@@ -43,8 +43,10 @@ const currentSong = () => {
 nextBtn.onclick = () => {
     if (index >= mp3List.length - 1) {
         index = 0;
+    } else {
+        index++;
     }
-    index++;
+//    index++;
     currentSong();
 }
 
@@ -52,8 +54,10 @@ nextBtn.onclick = () => {
 backBtn.onclick = () => {
     if (index <= 0) {
         index = mp3List.length - 1;
+    } else {
+        index--;
     }
-    index--;
+//    index--;
     currentSong();
 }
 
