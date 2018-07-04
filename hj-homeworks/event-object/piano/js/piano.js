@@ -1,6 +1,7 @@
 'use strict';
 
-const piano = document.getElementById('pianoKeys');
+//const piano = document.getElementById('pianoKeys');
+const  piano = document.getElementsByTagName('ul')[0];
 const pianoKeysList = piano.getElementsByTagName('li');
 const pianoSongList = ['first', 'second', 'third', 'fourth', 'fifth'];
 let type;
