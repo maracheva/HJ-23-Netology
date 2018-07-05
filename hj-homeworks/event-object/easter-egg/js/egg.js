@@ -1,6 +1,10 @@
 'use strict';
 
-const navPanel = document.getElementsByTagName('nav')[0];
+// Реализовать открытие и закрытие скрытой панели навигации с помощью комбинации клавиш CTRL+ALT+T.
+
+// Реализовать функционал «пасхалки» — секрета, который откроется пользователю при наборе последовательности букв «нетология»:
+
+const navPanel = document.getElementsByTagName('nav')[0]; // скрытая панель навигации
 const secretPanel = document.getElementsByClassName('secret')[0]; // <div class="secret">
 const secretCode = 'KeyYKeyTKeyNKeyJKeyKKeyJKeyUKeyBKeyZ'; // код Нетология
 const arr = [];
@@ -21,10 +25,10 @@ function showSecret(event) {
 
 // Открытие и закрытие панели навигации осуществляется с помощью добавления и удаления класса visible для тега nav.
 function showMenu(event) {
-    if (event.ctrlKey && event.altKey && event.code === 'KeyT') { //если нажаты клавиши 
-          navPanel.classList.toggle('visible'); // отображаем меню
+    if (event.ctrlKey && event.altKey && event.code === 'KeyT') { //если нажаты клавиши CTRL+ALT+T
+          navPanel.classList.toggle('visible'); // отображаем панель навигации
     }
-      showSecret(event);
+      showSecret(event); // вызываем функцию отображения секретного кода
 }
 
 document.addEventListener('keydown', showMenu);
