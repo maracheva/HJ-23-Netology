@@ -2,41 +2,53 @@
 
 const piano = document.getElementsByTagName('ul')[0]; // родительский тег
 const audio = document.getElementsByTagName('audio')[0]; // тег audio
-const pianoSoundsList = ['first.mp3', 'second.mp3', 'third.mp3', 'fourth.mp3', 'fifth.mp3']; // т.к. названия звуков у тонов middle, lower, higher одни и те же, создадим общий плейлист, а в ссылках будем указывать название папок, в которых лежат звуки конкретного тона (middle, lower, higher).
-let nameSounds = ['higher', 'lower', 'middle']; // массив папок-тонов
+const keys = piano.getElementsByTagName('li'); 
+const middle = [
+    "https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/middle/first.mp3",
+    "https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/middle/second.mp3",
+    "https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/middle/third.mp3",
+    "https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/middle/fourth.mp3",
+    "https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/middle/fifth.mp3"
+];
+const lower = [
+    'https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/lower/first.mp3', 'https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/lower/second.mp3', 'https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/lower/third.mp3', 'https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/lower/fourth.mp3', 'https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/lower/fifth.mp3'
+]; 
+const higher = [
+    'https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/higher/first.mp3', 
+    'https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/higher/second.mp3', 
+    'https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/higher/third.mp3', 
+    'https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/higher/fourth.mp3', 
+    'https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/higher/fifth.mp3'
+];
 
 // Для изменения режима, в котором находится пианино, следует менять класс на теге <ul class="set <mark>middle</mark>">.
-
 //В режиме lower класс .middle меняется на .lower. Для higher — аналогично.
-//
 //Для изменения звука кнопок следует менять src у тегов audio внутри соответствующих кнопок.
-//
+
 // проходимся циклом по каждой клавише пианино key и добавляем обработчик события
-for (const key of pianoSongList) {
+for (const key of keys) {
     key.addEventListener('click', playSound);
 }
+
 // Событие 'click' на клавише пианино
 function playSound(event) {
-//    if (piano.classList.contains('lower')) {
-//        for(let i = 0; i < audio.length; i++) {
-//            audio[i].src = './sounds/lower/${pianoSoundsList[i]}`;
-//        }                                         
-//    } else if(piano.classList.contains('higher')){
-//        for(let i = 0; i < audio.length; i++) {
-//            audio[i].src = './sounds/higher/${pianoSoundsList[i]}`;
-//        }    
-//    } else if(piano.classList.contains('middle')){
-//        for(let i = 0; i < audio.length; i++) {
-//            audio[i].src = './sounds/middle/${pianoSoundsList[i]}`;
-//        } 
-//    }
-//
-    audio.src = `./sounds/${nameSounds}/${pianoSoundsList[event.currentTarget]}.mp3`;
-    audio.pause();
-    audio.currentTime = 0;
-    audio.play();
-//    event.currentTarget.getElementsByTagName('audio')[0].currentTime = 0;
-//    event.currentTarget.getElementsByTagName('audio')[0].play();
+    event.preventDefault(); // отменим переход по ссылке
+    
+    for(let i = 0; i < audio.length; i++) {
+        
+        if (piano.classList.contains('lower')) {
+            audio[i].src = lower[i];
+
+        } else if(piano.classList.contains('higher')){
+            audio[i].src = higher[i];
+               
+        } else if(piano.classList.contains('middle')){
+            audio[i].src = middle[i];
+    }
+    
+    event.currentTarget.audio.pause();
+    event.currentTarget.audio.currentTime = 0;
+    event.currentTarget.audio.play();
 
 }
 
@@ -51,16 +63,14 @@ function getKeyboardEvent(event) {
 //        piano.classList.add('higher'); // подключаем тон higher
 //    }
     if (event.shiftKey) { // если нажата клавиша Shift
-        nameSounds = 'lower';
         piano.classList.remove('middle'); // удаляем тон middle
         piano.classList.add('lower'); // подключаем тон lower
     } else if (event.altKey) { // если нажата клавиша Alt
-        nameSounds = 'higher';
         piano.classList.remove('middle');
         piano.classList.add('higher'); // подключаем тон higher
     }
-    nameSounds = 'middle';
     piano.classList.add('middle'); // по умолчанию подключен тон middle
+    playSound();
 }
 // добавим обработчик событий на клавиатуре
 document.addEventListener('keydown', getKeyboardEvent);
