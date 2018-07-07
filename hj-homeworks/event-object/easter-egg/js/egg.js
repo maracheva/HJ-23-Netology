@@ -6,19 +6,19 @@
 const navPanel = document.getElementsByTagName('nav')[0]; // скрытая панель навигации
 const secretPanel = document.getElementsByClassName('secret')[0]; // <div class="secret">
 const secretCode = 'KeyYKeyTKeyNKeyJKeyKKeyJKeyUKeyBKeyZ'; // код Нетология
-const arr = [];
+//const secretCode = 'нетология'; // код Нетология
+let arr = [];
 
 
 // функционал «пасхалки» — секрета, который откроется пользователю при наборе последовательности букв «нетология»:
 function showSecret(event) {
-    arr.push(event.code); //добавляем код клавиши в массив
-    // склеиваем массив в строку и ищем секретную строку
+    arr.push(event.code); //добавляем код клавиши в массив, склеиваем массив в строку и ищем секретную строку
     if (arr.join('') !== secretCode) { // если строка не равна секретному коду
-        if (secretCode.includes(arr.join('')) === -1) { // если ничего не найдено
+        if (secretCode.indexOf(arr.join('')) === -1) { // если ничего не найдено
             arr.length = 0; // то массив пустой
-        } else {
-            secretPanel.classList.add('visible'); //отображаем секретную панель
         }
+    } else {
+        secretPanel.classList.add('visible'); //отображаем секретную панель
     }
 }
 
@@ -27,7 +27,8 @@ function showMenu(event) {
     if (event.ctrlKey && event.altKey && event.code === 'KeyT') { //если нажаты клавиши CTRL+ALT+T
           navPanel.classList.toggle('visible'); // отображаем панель навигации
     }
-      showSecret(event); // вызываем функцию отображения секретного кода
+    showSecret(event); // вызываем функцию отображения секретного кода
 }
 
 document.addEventListener('keydown', showMenu);
+//document.addEventListener('keydown', showSecret);
