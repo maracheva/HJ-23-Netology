@@ -23,23 +23,23 @@ let middle = ["https://netology-code.github.io/hj-homeworks/event-object/piano/s
 //наикривейшая из функций реагирующая на зажатые клавиши
 function pianoPlay(event) {
   if (piano.classList.contains('lower')) {
-  for(let i = 0; i < players.length; i++) {
-  players[i].src = lower[i];
-  }                                         }
-else if(piano.classList.contains('higher')){
     for(let i = 0; i < players.length; i++) {
-  players[i].src = higher[i];
-  }    
-}
-else if(piano.classList.contains('middle')){
+        players[i].src = lower[i];
+    }                                         
+  } else if(piano.classList.contains('higher')){
     for(let i = 0; i < players.length; i++) {
-  players[i].src = middle[i];
+        players[i].src = higher[i];
+    }    
+  } else if(piano.classList.contains('middle')){
+    for(let i = 0; i < players.length; i++) {
+        players[i].src = middle[i];
+    }
   }
-}
 
   event.currentTarget.getElementsByTagName('audio')[0].currentTime = 0;
   event.currentTarget.getElementsByTagName('audio')[0].play();
  };
+
 function toneChange(event) {
   if (event.shiftKey) {
     piano.classList.remove('middle');
