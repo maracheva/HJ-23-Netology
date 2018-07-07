@@ -49,11 +49,12 @@ function playSound(event) {
         } else if(piano.classList.contains('middle')){
             audio[i].src = middle[i];
         }
+
     }
     
-    event.currentTarget.audio.pause();
-    event.currentTarget.audio.currentTime = 0;
-    event.currentTarget.audio.play();
+    audio.pause();
+    audio.currentTime = 0;
+    audio.play();
 
 }
 
