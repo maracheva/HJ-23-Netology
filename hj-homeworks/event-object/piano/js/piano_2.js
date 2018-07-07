@@ -11,7 +11,11 @@ const middle = [
     "https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/middle/fifth.mp3"
 ];
 const lower = [
-    'https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/lower/first.mp3', 'https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/lower/second.mp3', 'https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/lower/third.mp3', 'https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/lower/fourth.mp3', 'https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/lower/fifth.mp3'
+    'https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/lower/first.mp3', 
+    'https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/lower/second.mp3', 
+    'https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/lower/third.mp3', 
+    'https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/lower/fourth.mp3', 
+    'https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/lower/fifth.mp3'
 ]; 
 const higher = [
     'https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/higher/first.mp3', 
@@ -44,6 +48,7 @@ function playSound(event) {
                
         } else if(piano.classList.contains('middle')){
             audio[i].src = middle[i];
+        }
     }
     
     event.currentTarget.audio.pause();
@@ -72,5 +77,7 @@ function getKeyboardEvent(event) {
     piano.classList.add('middle'); // по умолчанию подключен тон middle
     playSound();
 }
+
+
 // добавим обработчик событий на клавиатуре
 document.addEventListener('keydown', getKeyboardEvent);
