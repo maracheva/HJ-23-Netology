@@ -14,7 +14,7 @@ let arr = [];
 function showSecret(event) {
     arr.push(event.code); //добавляем код клавиши в массив, склеиваем массив в строку и ищем секретную строку
     if (arr.join('') !== secretCode) { // если строка не равна секретному коду
-        if (secretCode.indexOf(arr.join('')) === -1) { // если ничего не найдено
+        if (secretCode.includes(arr.join('')) === -1) { // если ничего не найдено
             arr.length = 0; // то массив пустой
         }
     } else {
@@ -27,8 +27,8 @@ function showMenu(event) {
     if (event.ctrlKey && event.altKey && event.code === 'KeyT') { //если нажаты клавиши CTRL+ALT+T
           navPanel.classList.toggle('visible'); // отображаем панель навигации
     }
-    showSecret(event); // вызываем функцию отображения секретного кода
+    // showSecret(event); // вызываем функцию 
 }
 
-document.addEventListener('keydown', showMenu);
-//document.addEventListener('keydown', showSecret);
+document.addEventListener('keydown', showMenu); // отображения навигации
+document.addEventListener('keydown', showSecret); // отображения секретного кода
