@@ -1,0 +1,39 @@
+Тест к занятию «Объектная модель документа»
+
+1. Какое из событий загрузки страницы срабатывает первым?
+Правильный ответ: DOMContentLoaded
+
+2. Какие методы поиска тегов используются в этом примере?
+const profile = document.<1>('#header > div.user');
+const divs = document.<2>('div');
+const items = document.<3>('item');
+const links = document.<4>('nav a.other');
+const content = document.<5>('content');
+
+Правильный ответ: 1: querySelector, 2: getElementsByTagName, 3: getElementsByClassName, 4: querySelectorAll, 5: getElementById
+
+3. Как удалить атрибут controls у элемента player?
+Правильный ответ: player.removeAttribute('controls');
+
+4. Назовите все свойства объекта dataset для элемента соответствующему тегу в приведенном примере?
+<div class="item"
+   data-price="4000"
+   data-amount="7"
+   data-user-discount="0.07"></div>
+
+Правильный ответ: price, amount, userDiscount
+
+5. Что будет результатом при клике на кнопку в этом примере?
+<div id="showMe"></div>
+<button id="clickMe">Нажми меня</button>
+<script>
+function changeText() {
+  button.innerHTML = '';
+  view.innerHTML = 'Привет</div> Иван'
+}
+const button = document.getElementById('clickMe');
+const view = document.getElementById('showMe');
+button.addEventListener('click', changeText);
+</script>
+
+Правильный ответ: С кнопки clickMe будет удален текст. В слое showMe появится текст Привет Иван.
