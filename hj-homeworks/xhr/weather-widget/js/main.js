@@ -1,7 +1,14 @@
 const request = new XMLHttpRequest();
+
+request.addEventListener('load', onload);
 request.open('GET', 'https://netology-fbb-store-api.herokuapp.com/weather', true);
 request.send();
-if (request.status === 200) {
-  const response = JSON.parse(request.responseText);
-  setData(response);
+
+function onload({target}) {
+  if (target.status === 200) {
+    const response = JSON.parse(target.responseText);
+    setData(response);
+  }
 }
+
+
