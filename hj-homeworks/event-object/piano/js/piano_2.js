@@ -37,7 +37,7 @@ for (const key of keys) {
 // Событие 'click' на клавише пианино
 function playSound(event) {
     event.preventDefault(); // отменим переход по ссылке
-    
+    // счетчик по плейлисту.
     for(let i = 0; i < audio.length; i++) {
         
         if (piano.classList.contains('lower')) {
@@ -51,35 +51,53 @@ function playSound(event) {
         }
 
     }
-    
-    let qwerty = this.getElementsByTagName('audio')[0];
-    qwerty.pause();
-    qwerty.currentTime = 0;
-    qwerty.play();
+    // запускаем звук
+    let play = event.currentTarget.getElementsByTagName('audio')[0];
+    play.pause();
+    play.currentTime = 0;
+    play.play();
 
 }
 
 // События на клавиатуре
-// функция-обработчик событий клавиатуры
-function getKeyboardEvent(event) {
-//    if (event.getModifierState("Shift")) {
-//        piano.classList.remove('middle'); // удаляем то middle
-//        piano.classList.add('lower'); // подключаем тон lower
-//    } else if (event.getModifierState("Alt")) {
-//        piano.classList.remove('middle');
-//        piano.classList.add('higher'); // подключаем тон higher
-//    }
-    if (event.shiftKey) { // если нажата клавиша Shift
-        piano.classList.remove('middle'); // удаляем тон middle
+// функция-обработчик событий клавиатуры при нажатии клавиш
+function getKeydown(event) {
+// первый вариант
+    if (event.getModifierState("Shift")) {
+        piano.classList.remove('middle'); // удаляем то middle
+        piano.classList.remove('higher');
         piano.classList.add('lower'); // подключаем тон lower
-    } else if (event.altKey) { // если нажата клавиша Alt
+    } else if (event.getModifierState("Alt")) {
         piano.classList.remove('middle');
+        piano.classList.remove('lower');
         piano.classList.add('higher'); // подключаем тон higher
     }
+    
+// второй вариант
+//    if (event.shiftKey) { // если нажата клавиша Shift
+//        piano.classList.remove('middle'); // удаляем тон middle
+//        piano.classList.remove('higher'); // удаляем тон higher
+//        piano.classList.add('lower'); // подключаем тон lower
+//    } else if (event.altKey) { // если нажата клавиша Alt
+//        piano.classList.remove('middle');
+//        piano.classList.remove('lower'); // удаляем тон middle
+//        piano.classList.add('higher'); // подключаем тон higher
+//    }  
+    
+    playSound();
+}
+
+// функция - обработчик события на клавиатуре при отпускании зажатых клавиш
+function getKeyup(event) {
+    piano.classList.remove('lower'); 
+    piano.classList.remove('higher'); 
     piano.classList.add('middle'); // по умолчанию подключен тон middle
     playSound();
 }
 
 
 // добавим обработчик событий на клавиатуре
-document.addEventListener('keydown', getKeyboardEvent);
+// при нажатых клавишах Shift или Alt
+document.addEventListener('keydown', getKeydown);
+// при отпускании клавиши
+document.addEventListener('keyup', getKeyup);
