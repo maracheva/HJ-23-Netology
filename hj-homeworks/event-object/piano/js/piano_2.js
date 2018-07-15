@@ -1,7 +1,7 @@
 'use strict';
 
 const piano = document.getElementsByTagName('ul')[0]; // родительский тег
-const audio = document.getElementsByTagName('audio')[0]; // тег audio
+const audio = document.getElementsByTagName('audio'); // тег audio
 const keys = piano.getElementsByTagName('li'); 
 const middle = [
     "https://netology-code.github.io/hj-homeworks/event-object/piano/sounds/middle/first.mp3",
@@ -52,9 +52,10 @@ function playSound(event) {
 
     }
     
-    audio.pause();
-    audio.currentTime = 0;
-    audio.play();
+    let qwerty = this.getElementsByTagName('audio')[0];
+    qwerty.pause();
+    qwerty.currentTime = 0;
+    qwerty.play();
 
 }
 
