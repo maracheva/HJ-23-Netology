@@ -1,8 +1,8 @@
 'use strict';
 
-list.addEventListener('click', counterCart);
+list.addEventListener('click', hadleListClick);
 
-function counterCart(event) {
+function hadleListClick(event) {
 	if (event.target.classList.contains('add-to-cart')) {
 		event.preventDefault();
 		addToCart(event.target.dataset);	
