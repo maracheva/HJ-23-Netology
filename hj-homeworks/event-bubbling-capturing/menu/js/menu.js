@@ -12,7 +12,6 @@ function toggleMenu(event) {
 
 function openLink(event) {
   event.preventDefault(); // отмена перехода по ссылке
-  console.log(event.currentTarget.textContent);
   event.stopPropagation(); // отмена всплытия у события
 }
 
