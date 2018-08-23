@@ -92,7 +92,7 @@ function snippetQuickCart(data) {
 				<span class="count hide fadeUp" id="quick-cart-product-count-${item.id}">${item.quantity}</span>
 				<span class="quick-cart-product-remove remove" data-id="${item.id}"></span>
 			</div>`;
-		priceSum = item.price * item.quantity;
+		priceSum += item.price * item.quantity;
 	})
    
 	quickCart.innerHTML += `
@@ -133,21 +133,6 @@ fetch('https://neto-api.herokuapp.com/cart', {
 		snippetQuickCart(data);
 	});
 
-// function empty() {
-// 	const formData = new FormData(); 
-// 	formData.append('productId', removeBth.dataset.id);
-
-// 	fetch('https://neto-api.herokuapp.com/cart/remove', {
-// 		method: 'post',
-// 		body: formData
-// 	})
-// 		.then(function(response) { 
-// 			return response.json();
-// 		})
-// 		.then(function(data) {
-// 			(data.length > 0) ? basket(data) : quickCart.innerHTML = '';
-// 		});
-// }
 
 const swatches = document.querySelector('.swatches');
 swatches.addEventListener('click', (event) => {
@@ -165,24 +150,10 @@ swatches.addEventListener('click', (event) => {
 
 });
 
-// function selection(e) {
-// 	const inputSwatches = document.querySelectorAll('.swatches input'),
-// 	inputSwatchesArr = Array.from(inputSwatches),
-// 	arrIndex = [];
- 
-// 	inputSwatchesArr.forEach(function (item, i) {
-// 		if (item.checked) {
-// 			arrIndex.push(i);
-// 		}
-// 	})
-
-// 	localStorage.index = JSON.stringify(arrIndex);
-// }
 
 const addToCard = document.querySelector('#AddToCart');
 addToCard.addEventListener('click', (event) => {
     const formData = new FormData(AddToCartForm);
-    event.preventDefault();
 	formData.append('productId', AddToCartForm.dataset.productId);
 	fetch('https://neto-api.herokuapp.com/cart', {
 		method: 'post',
@@ -194,22 +165,5 @@ addToCard.addEventListener('click', (event) => {
 		.then(function(data) {
 			snippetQuickCart(data);
 		});
-
+	event.preventDefault();
 });
-
-// function request(e) {
-// 	formData = new FormData(AddToCartForm);
-  
-// 	formData.append('productId', AddToCartForm.dataset.productId);
-// 	fetch('https://neto-api.herokuapp.com/cart', {
-// 		method: 'post',
-// 		body: formData
-// 	})
-// 		.then(function(response) { 
-// 			return response.json();
-// 		})
-// 		.then(function(data) {
-// 			snippetQuickCart(data);
-// 		});
-// 	e.preventDefault();
-// }
