@@ -5,7 +5,7 @@ const sizeSwatch = document.querySelector('#sizeSwatch'); // добавлени�
 const quickCart = document.querySelector('#quick-cart'); // добавление в корзину
 const quickCartPay = document.querySelector('#quick-cart-pay'); // Общая стоимость всех товаров 
 const removeBth = document.querySelector('.remove'); // кнопка удаления из корзины
-const AddToCartForm = document.querySelector('#AddToCartForm'); // форма отправки заказа
+const addToCartForm = document.querySelector('#AddToCartForm'); // форма отправки заказа
 
 // добавление цвета
 fetch('https://neto-api.herokuapp.com/cart/colors', {
@@ -108,7 +108,8 @@ function snippetQuickCart(data) {
 	// Событие на кнопке удаления товара из корзины
 	removeBth.addEventListener('click', (event) => {
         const formData = new FormData(); 
-	    formData.append('productId', removeBth.dataset.id);
+        formData.append('productId', removeBth.dataset.id);
+        console.log(removeBth.dataset.id)
 
 	    fetch('https://neto-api.herokuapp.com/cart/remove', {
 		    method: 'post',
@@ -153,8 +154,8 @@ swatches.addEventListener('click', (event) => {
 
 const addToCard = document.querySelector('#AddToCart');
 addToCard.addEventListener('click', (event) => {
-    const formData = new FormData(AddToCartForm);
-	formData.append('productId', AddToCartForm.dataset.productId);
+    const formData = new FormData(addToCartForm);
+	formData.append('productId', addToCartForm.dataset.productId);
 	fetch('https://neto-api.herokuapp.com/cart', {
 		method: 'post',
 		body: formData
