@@ -92,7 +92,7 @@ function snippetQuickCart(data) {
 				<span class="count hide fadeUp" id="quick-cart-product-count-${item.id}">${item.quantity}</span>
 				<span class="quick-cart-product-remove remove" data-id="${item.id}"></span>
 			</div>`;
-		priceSum += item.price * item.quantity;
+		priceSum = item.price * item.quantity;
 	})
    
 	quickCart.innerHTML += `
