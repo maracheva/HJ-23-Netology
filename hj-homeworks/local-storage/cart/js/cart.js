@@ -1,111 +1,86 @@
 'use strict';
-// При открытии страницы необходимо отобразить выбор размера и цвета с учетом доступности.
-// Любые изменения размера и цвета должны запоминаться на стороне клиента, 
-// и при повторном открытии должно быть выбрано последнее актуальное значение.
 
-// При нажатии на кнопку «Добавить в корзину» необходимо отправить данные 
-// формы методом POST на адрес https://neto-api.herokuapp.com/cart. 
-// Данные формы необходимо дополнить идентификатором товара. 
-// Он доступен в атрибуте data-product-id формы. Его нужно отправить в запросе полем productId.
+const colorSwatch = document.querySelector('#colorSwatch'); // добавление цвета
+const sizeSwatch = document.querySelector('#sizeSwatch'); // добавление размера
+const quickCart = document.querySelector('#quick-cart'); // добавление в корзину
+const quickCartPay = document.querySelector('#quick-cart-pay'); // Общая стоимость всех товаров 
+const removeBth = document.querySelector('.remove'); // кнопка удаления из корзины
+const AddToCartForm = document.querySelector('#AddToCartForm'); // форма отправки заказа
 
-// В случае успеха вернется новое состояние корзины — обновите корзину, используя эти данные. 
-// В случае ошибки вы получите объект со свойством error, равным true, 
-// и свойством message с описанием причины ошибки.
+// добавление цвета
+fetch('https://neto-api.herokuapp.com/cart/colors', {
+	method: 'get'
+})
+	.then(function(response) {
+		return response.json();
+	})
+	.then(function(data) {
+		data.forEach(function (item) {
+			let available, checked;
 
-// Для удаления товара из корзины отправьте его идентификатор 
-// полем productId на адрес https://neto-api.herokuapp.com/cart/remove методом POST. 
-// В случае успеха вы получите новое состояние корзины. Ошибка выглядит так же, как и при добавлении.
+			if (item.isAvailable) {
+				available = 'available';
+				checked = 'checked';
+			} else {
+				available = 'soldout';
+				checked = 'disabled';
+			} 
 
-// Для получения списка доступных цветов запросите JSON по адресу https://neto-api.herokuapp.com/cart/colors
-// Для получения списка доступных размеров запросите JSON по адресу https://neto-api.herokuapp.com/cart/sizes
-// Для получения текущего состояния корзины запросите JSON по адресу https://neto-api.herokuapp.com/cart
-
-// Варианты цвета подставляются в тело тега с идентификатором colorSwatch
-// Варианты размера подставляются в тело тега с идентификатором sizeSwatch
-// Корзина доступна в теге с идентификатором quick-cart
-// Форма отправки заказа имеет идентификатор AddToCartForm
-
-const colorSwatch = document.querySelector('#colorSwatch');
-const sizeSwatch = document.querySelector('#sizeSwatch');
-const quickCart = document.querySelector('#quick-cart');
-const cartForm = document.querySelector('#AddToCartForm');
-const urls = [
-  'https://neto-api.herokuapp.com/cart/colors',
-  'https://neto-api.herokuapp.com/cart/sizes',
-  'https://neto-api.herokuapp.com/cart'
-];
-Promise.all(urls.map(url => fetch(url)))
-  .then(resp => Promise.all(resp.map(result => result.json())))
-  .then(([dataColors, dataSizes, dataCart]) => {
-    snippetSwatchColor(dataColors);
-    snippetSwatchSize(dataSizes);
-    snippetCart(dataCart);
-  });
-
-// Добавление цветов
-function snippetSwatchColor(data) {
-    data.forEach(function (item) {
-        let available;
-        let	checked;
-
-        if (item.isAvailable) {
-            available = 'available';
-            checked = 'checked';
-        } else {
-            available = 'soldout';
-            checked = 'disabled';
-        } 
-
-        colorSwatch.innerHTML += `
-            <div data-value="${item.type}" class="swatch-element color ${item.type} ${available}">
-                <div class="tooltip">${item.title}</div>
-                <input quickbeam="color" id="swatch-1-${item.type}" type="radio" name="color" value="${item.type}" ${checked}>
-                <label for="swatch-1-${item.type}" style="border-color: red;">
-                    <span style="background-color: ${item.code};"></span>
-                    <img class="crossed-out" src="https://neto-api.herokuapp.com/hj/3.3/cart/soldout.png?10994296540668815886">
-                </label>
-            </div>`
-    })
-}
+			colorSwatch.innerHTML += `
+				<div data-value="${item.type}" class="swatch-element color ${item.type} ${available}">
+					<div class="tooltip">${item.title}</div>
+					<input quickbeam="color" id="swatch-1-${item.type}" type="radio" name="color" value="${item.type}" ${checked}>
+					<label for="swatch-1-${item.type}" style="border-color: red;">
+						<span style="background-color: ${item.code};"></span>
+						<img class="crossed-out" src="https://neto-api.herokuapp.com/hj/3.3/cart/soldout.png?10994296540668815886">
+					</label>
+				</div>`
+		})
+	});
 
 
-// Добавление размеров
-function snippetSwatchSize(data) {
-    data.forEach(function (item) {
-        let available;
-        let checked;
+// добавление размера
+fetch('https://neto-api.herokuapp.com/cart/sizes', {
+	method: 'get'
+})
+	.then(function(response) {
+		return response.json();
+	})
+	.then(function(data) {
+		data.forEach(function (item) {
+			let available, checked;
 
-        if (item.isAvailable) {
-            available = 'available';
-            checked = 'checked';
-        } else {
-            available = 'soldout';
-            checked = 'disabled';
-        } 
-        
-        sizeSwatch.innerHTML += `
-            <div data-value="${item.type}" class="swatch-element plain ${item.type} ${available}">
-                <input id="swatch-0-${item.type}" type="radio" name="size" value="${item.type}" ${checked}>
-                <label for="swatch-0-${item.type}">
-                    ${item.title}
-                    <img class="crossed-out" src="https://neto-api.herokuapp.com/hj/3.3/cart/soldout.png?10994296540668815886">
-                </label>
-            </div>`
-    })
+			if (item.isAvailable) {
+				available = 'available';
+				checked = 'checked';
+			} else {
+				available = 'soldout';
+				checked = 'disabled';
+			} 
+			
+			sizeSwatch.innerHTML += `
+				<div data-value="${item.type}" class="swatch-element plain ${item.type} ${available}">
+					<input id="swatch-0-${item.type}" type="radio" name="size" value="${item.type}" ${checked}>
+					<label for="swatch-0-${item.type}">
+						${item.title}
+						<img class="crossed-out" src="https://neto-api.herokuapp.com/hj/3.3/cart/soldout.png?10994296540668815886">
+					</label>
+				</div>`
+		})
 
-    if (localStorage.index) {
-        const arrIndex = JSON.parse(localStorage.index),
-        inputSwatches = document.querySelectorAll('.swatches input');
-        arrIndex.forEach(function (item) {
-            inputSwatches[item].checked = true;
-        })
-    }
+		if (localStorage.index) {
+			const arrIndex = JSON.parse(localStorage.index),
+			inputSwatches = document.querySelectorAll('.swatches input');
+			arrIndex.forEach(function (item) {
+				inputSwatches[item].checked = true;
+			})
+		}
+	});
 
-}
 
-// Добавление товара в корзину
-function snippetCart(data) {
-    let priceSum = 0;
+//  добавление в корзину   
+function snippetQuickCart(data) {
+	let priceSum = 0;
 	data.forEach(function (item) {
 		quickCart.innerHTML = `
 			<div class="quick-cart-product quick-cart-product-static" id="quick-cart-product-${item.id}" style="opacity: 1;">
@@ -126,39 +101,115 @@ function snippetCart(data) {
 				<strong class="quick-cart-text">Оформить заказ<br></strong>
 				<span id="quick-cart-price">${priceSum}</span>
 			</span>
-		</a>`
-   
-	const quickCartPay = document.querySelector('#quick-cart-pay');
+        </a>`
+        
+    // Если в корзине нет товаров, то класс open необходимо удалить.
 	(data.length === 0) ? quickCartPay.classList.remove('open') : quickCartPay.classList.add('open');
-	
-	const removeBth = document.querySelector('.remove');
+	// Событие на кнопке удаления товара из корзины
 	removeBth.addEventListener('click', (event) => {
-        const id = event.target.dataset.id;
         const formData = new FormData(); 
 	    formData.append('productId', removeBth.dataset.id);
-	    fetchRequest(formData, 'https://neto-api.herokuapp.com/cart/remove');
+
+	    fetch('https://neto-api.herokuapp.com/cart/remove', {
+		    method: 'post',
+		    body: formData
+	    })
+		    .then(function(response) { 
+			    return response.json();
+		    })
+		    .then(function(data) {
+			    (data.length > 0) ? snippetQuickCart(data) : quickCart.innerHTML = '';
+		    });
     });
 }
 
-function fetchRequest(data, url) {
-    fetch(url, {
-      body: data,
-      method: 'POST'
-    })
-    .then((result) => {
-      if (200 <= result.status && result.status < 300) {
-        return result;
-      }
-      throw new Error(response.statusText);
-    })
-    .then((result) => result.json())
-    .then((data) => {
-      if (data.error) {
-        console.error(data.message);
-      } else {
-        snippetCart(data);
-      }
-    });
-}
+fetch('https://neto-api.herokuapp.com/cart', {
+	method: 'get'
+})
+	.then(function(response) {
+		return response.json();
+	})
+	.then(function(data) {
+		snippetQuickCart(data);
+	});
 
+// function empty() {
+// 	const formData = new FormData(); 
+// 	formData.append('productId', removeBth.dataset.id);
 
+// 	fetch('https://neto-api.herokuapp.com/cart/remove', {
+// 		method: 'post',
+// 		body: formData
+// 	})
+// 		.then(function(response) { 
+// 			return response.json();
+// 		})
+// 		.then(function(data) {
+// 			(data.length > 0) ? basket(data) : quickCart.innerHTML = '';
+// 		});
+// }
+
+const swatches = document.querySelector('.swatches');
+swatches.addEventListener('click', (event) => {
+    const inputSwatches = document.querySelectorAll('.swatches input'),
+    inputSwatchesArr = Array.from(inputSwatches),
+    arrIndex = [];
+    
+    inputSwatchesArr.forEach(function (item, i) {
+        if (item.checked) {
+            arrIndex.push(i);
+        }
+    })
+
+    localStorage.index = JSON.stringify(arrIndex);
+
+});
+
+// function selection(e) {
+// 	const inputSwatches = document.querySelectorAll('.swatches input'),
+// 	inputSwatchesArr = Array.from(inputSwatches),
+// 	arrIndex = [];
+ 
+// 	inputSwatchesArr.forEach(function (item, i) {
+// 		if (item.checked) {
+// 			arrIndex.push(i);
+// 		}
+// 	})
+
+// 	localStorage.index = JSON.stringify(arrIndex);
+// }
+
+const addToCard = document.querySelector('#AddToCart');
+addToCard.addEventListener('click', (event) => {
+    const formData = new FormData(AddToCartForm);
+    event.preventDefault();
+	formData.append('productId', AddToCartForm.dataset.productId);
+	fetch('https://neto-api.herokuapp.com/cart', {
+		method: 'post',
+		body: formData
+	})
+		.then(function(response) { 
+			return response.json();
+		})
+		.then(function(data) {
+			snippetQuickCart(data);
+		});
+
+});
+
+// function request(e) {
+// 	formData = new FormData(AddToCartForm);
+  
+// 	formData.append('productId', AddToCartForm.dataset.productId);
+// 	fetch('https://neto-api.herokuapp.com/cart', {
+// 		method: 'post',
+// 		body: formData
+// 	})
+// 		.then(function(response) { 
+// 			return response.json();
+// 		})
+// 		.then(function(data) {
+// 			snippetQuickCart(data);
+// 		});
+// 	e.preventDefault();
+// }
