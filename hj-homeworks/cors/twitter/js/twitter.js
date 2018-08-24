@@ -8,14 +8,14 @@
 	const followers = document.querySelector('[data-followers]');
 	const following = document.querySelector('[data-following]');
 
-function callback (userData) {
-	wallpaper.src = userData.wallpaper;
-	username.textContent = userData.username;
-	description.textContent = userData.description;
-	pic.src = userData.pic;
-	tweets.value = userData.tweets;
-	followers.value = userData.followers;
-	following.value = userData.following;
+function callback (data) {
+	wallpaper.src = data.wallpaper;
+	username.textContent = data.username;
+	description.textContent = data.description;
+	pic.src = data.pic;
+	tweets.value = data.tweets;
+	followers.value = data.followers;
+	following.value = data.following;
 }
 
 const url = `https://neto-api.herokuapp.com/twitter/jsonp`; 
