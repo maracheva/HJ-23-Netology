@@ -8,7 +8,6 @@ const technologies = document.querySelector('[data-technologies]');
 const content = document.querySelector('.content');
 
 function loadData(url) {
-	// const functionName = 'callback';
 	return new Promise((done, fail) => {
 		window['callback'] = done;
 		const script = document.createElement('script');
