@@ -2,12 +2,10 @@
 
 const colorSwatch = document.querySelector('#colorSwatch'); // добавление цвета
 const sizeSwatch = document.querySelector('#sizeSwatch'); // добавление размера
-const quickCart = document.querySelector('#quick-cart'); // добавление в корзину
-const quickCartPay = document.querySelector('#quick-cart-pay'); // Общая стоимость всех товаров 
-const removeBth = document.querySelector('.remove'); // кнопка удаления из корзины
-const addToCartForm = document.querySelector('#AddToCartForm'); // форма отправки заказа
+const quickCart = document.querySelector('#quick-cart'); // добавление в корзину 
+const AddToCartForm = document.querySelector('#AddToCartForm'); // форма отправки заказа
 
-// добавление цвета
+// получения списка доступных цветов
 fetch('https://neto-api.herokuapp.com/cart/colors', {
 	method: 'get'
 })
@@ -16,7 +14,8 @@ fetch('https://neto-api.herokuapp.com/cart/colors', {
 	})
 	.then(function(data) {
 		data.forEach(function (item) {
-			let available, checked;
+			let available;
+			let	checked;
 
 			if (item.isAvailable) {
 				available = 'available';
@@ -38,8 +37,7 @@ fetch('https://neto-api.herokuapp.com/cart/colors', {
 		})
 	});
 
-
-// добавление размера
+// получения списка доступных размеров
 fetch('https://neto-api.herokuapp.com/cart/sizes', {
 	method: 'get'
 })
@@ -48,7 +46,8 @@ fetch('https://neto-api.herokuapp.com/cart/sizes', {
 	})
 	.then(function(data) {
 		data.forEach(function (item) {
-			let available, checked;
+			let available;
+			let checked;
 
 			if (item.isAvailable) {
 				available = 'available';
@@ -69,17 +68,15 @@ fetch('https://neto-api.herokuapp.com/cart/sizes', {
 		})
 
 		if (localStorage.index) {
-			const arrIndex = JSON.parse(localStorage.index),
-			inputSwatches = document.querySelectorAll('.swatches input');
-			arrIndex.forEach(function (item) {
+			const inputSwatches = document.querySelectorAll('.swatches input');
+			JSON.parse(localStorage.index).forEach(function (item) {
 				inputSwatches[item].checked = true;
 			})
 		}
 	});
 
 
-//  добавление в корзину   
-function snippetQuickCart(data) {
+function sumCart(data) {
 	let priceSum = 0;
 	data.forEach(function (item) {
 		quickCart.innerHTML = `
@@ -101,29 +98,17 @@ function snippetQuickCart(data) {
 				<strong class="quick-cart-text">Оформить заказ<br></strong>
 				<span id="quick-cart-price">${priceSum}</span>
 			</span>
-        </a>`
-        
+		</a>`
+   
     // Если в корзине нет товаров, то класс open необходимо удалить.
+	const quickCartPay = document.querySelector('#quick-cart-pay');
 	(data.length === 0) ? quickCartPay.classList.remove('open') : quickCartPay.classList.add('open');
-	// Событие на кнопке удаления товара из корзины
-	removeBth.addEventListener('click', (event) => {
-        const formData = new FormData(); 
-        formData.append('productId', removeBth.dataset.id);
-        console.log(removeBth.dataset.id)
-
-	    fetch('https://neto-api.herokuapp.com/cart/remove', {
-		    method: 'post',
-		    body: formData
-	    })
-		    .then(function(response) { 
-			    return response.json();
-		    })
-		    .then(function(data) {
-			    (data.length > 0) ? snippetQuickCart(data) : quickCart.innerHTML = '';
-		    });
-    });
+	// обработка события на кнопке удаления товара из корзины
+	const removeBth = document.querySelector('.remove');
+	removeBth.addEventListener('click', removeFromCart);
 }
 
+// получения текущего состояния корзины
 fetch('https://neto-api.herokuapp.com/cart', {
 	method: 'get'
 })
@@ -131,32 +116,16 @@ fetch('https://neto-api.herokuapp.com/cart', {
 		return response.json();
 	})
 	.then(function(data) {
-		snippetQuickCart(data);
+		sumCart(data);
 	});
 
-
-const swatches = document.querySelector('.swatches');
-swatches.addEventListener('click', (event) => {
-    const inputSwatches = document.querySelectorAll('.swatches input'),
-    inputSwatchesArr = Array.from(inputSwatches),
-    arrIndex = [];
-    
-    inputSwatchesArr.forEach(function (item, i) {
-        if (item.checked) {
-            arrIndex.push(i);
-        }
-    })
-
-    localStorage.index = JSON.stringify(arrIndex);
-
-});
-
-
-const addToCard = document.querySelector('#AddToCart');
-addToCard.addEventListener('click', (event) => {
-    const formData = new FormData(addToCartForm);
-	formData.append('productId', addToCartForm.dataset.productId);
-	fetch('https://neto-api.herokuapp.com/cart', {
+function removeFromCart() {
+	const removeBth = document.querySelector('.remove');
+	const formData = new FormData(); 
+	formData.append('productId', removeBth.dataset.id);
+	console.log(removeBth.dataset.id)
+    // Для удаления товара из корзины отправим запрос
+	fetch('https://neto-api.herokuapp.com/cart/remove', {
 		method: 'post',
 		body: formData
 	})
@@ -164,7 +133,47 @@ addToCard.addEventListener('click', (event) => {
 			return response.json();
 		})
 		.then(function(data) {
-			snippetQuickCart(data);
+			(data.length > 0) ? sumCart(data) : quickCart.innerHTML = '';
+		});
+}
+
+const swatches = document.querySelector('.swatches');
+swatches.addEventListener('click', selectSwatches);
+
+function selectSwatches(event) {
+	const inputSwatches = document.querySelectorAll('.swatches input'),
+	inputSwatchesArr = Array.from(inputSwatches),
+	arrIndex = [];
+ 
+	inputSwatchesArr.forEach(function (item, i) {
+		if (item.checked) {
+			arrIndex.push(i);
+		}
+	})
+
+	localStorage.index = JSON.stringify(arrIndex);
+}
+
+// Обработка формы отправки заказа
+const addToCard = document.querySelector('#AddToCart');
+addToCard.addEventListener('click', request);
+
+function request(event) {
+	const formData = new FormData(AddToCartForm);
+  
+	formData.append('productId', AddToCartForm.dataset.productId);
+	fetch('https://neto-api.herokuapp.com/cart', {
+		method: 'post',
+		body: formData
+	})
+		.then((response) => response.json())
+		.then((data) => {
+            if (data.error) {
+                console.error(data.message);
+            } else {
+                sumCart(data);
+            }	
 		});
 	event.preventDefault();
-});
+}
+
