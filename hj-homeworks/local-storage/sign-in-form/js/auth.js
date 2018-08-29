@@ -8,39 +8,39 @@ const messageSignUp = formSignUp.querySelector('.error-message');
 initFormSubmit(formSignIn, 'https://neto-api.herokuapp.com/signin', messageSignIn, 'signin');
 initFormSubmit(formSignUp, 'https://neto-api.herokuapp.com/signup', messageSignUp, 'signup');
 
-function initFormSubmit(form, url, message, type) {
-    form.addEventListener('submit', (event) => {
-        event.preventDefault();
+function initFormSubmit(form, url, messageOut, type) {
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
 
-        const formData = new FormData(event.currentTarget);
-        const data = {};
+    const formData = new FormData(event.currentTarget);
+    const dataToObj = {};
 
-        for (const [key, value] of formData) {
-            data.key = value;
-        }
+    for (const [key, value] of formData) {
+      dataToObj[key] = value;
+    }
 
-        const request = fetch(url, {
-            body: JSON.stringify(data),
-            credentials: 'same-origin',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json'
-            }
-        });
-
-        request
-            .then((result) => {
-                if (200 <= result.status && result.status < 300) {
-                    return result;
-                }
-                throw new Error(response.statusText);
-            })
-            .then((result) => result.json())
-            .then((data) => {
-                const inputMessage = type === 'signin' ? `Пользователь ${data.name} успешно авторизован` : `Пользователь ${data.name} успешно зарегистрирован`;
-                message.value = data.error ? data.message : inputMessage;
-            });
-
+    const request = fetch(url, {
+      body: JSON.stringify(dataToObj),
+      credentials: 'same-origin',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      }
     });
+
+    request
+      .then((result) => {
+        if (200 <= result.status && result.status < 300) {
+          return result;
+        }
+        throw new Error(response.statusText);
+      })
+      .then((result) => result.json())
+      .then((data) => {
+        const messageOKText = type === 'signin' ? `Пользователь ${data.name} успешно авторизован` : `Пользователь ${data.name} успешно зарегистрирован`;
+        messageOut.value = data.error ? data.message : messageOKText;
+      });
+
+  });
 }
