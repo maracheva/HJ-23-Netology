@@ -1,8 +1,7 @@
 'use strict'
 
 let movedPiece = null; // переменная, которая будет запоминать перемещение мыши
-// let oldCoord = null;
-let posX = null, posY = null;
+let posX = null, posY = null; // координаты
 
 // Перетаскивание всех элементов с классом logo
 document.addEventListener('mousedown', event => {
@@ -11,10 +10,6 @@ document.addEventListener('mousedown', event => {
         // При захвате элемента курсор должен быть в центре этого элемента.
         posX = event.target.getBoundingClientRect().left;
         posY = event.target.getBoundingClientRect().top;
-        // oldCoord = {
-        //     x: event.target.getBoundingClientRect().left,
-        //     y: event.target.getBoundingClientRect().top
-        // };
         movedPiece = event.target;
         movedPiece.classList.add('moving');
     }
@@ -41,15 +36,11 @@ document.addEventListener('mouseup', event => {
         if (trashBin) {
             movedPiece.style.display = 'none'; // Удалить элемент(display: none;), если он был отпущен в области корзины, которая имеет id trash_bin
             movedPiece = null;
-            // oldCoord = null;
             posX = null;
             posY = null;
         }  else {
-            // movedPiece.style.left = `${oldCoord.x}px`;
-            // movedPiece.style.top = `${oldCoord.y}px`;
             movedPiece.style.left = `${posX}px`;
             movedPiece.style.top = `${posY}px`;
-            // oldCoord = null;
             posX = null;
             posY = null;
             movedPiece = null;
