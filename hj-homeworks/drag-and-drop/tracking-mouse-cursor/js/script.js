@@ -2,7 +2,7 @@
 
 // Каждый глаз имеет свою область.  
 const leftEye = document.querySelector('.cat_position_for_left_eye'); // Область левого глаза
-const   rightEye = document.querySelector('.cat_position_for_right_eye'); // Область правого глаза
+const  rightEye = document.querySelector('.cat_position_for_right_eye'); // Область правого глаза
 
 let posX = null, posY = null;
 
