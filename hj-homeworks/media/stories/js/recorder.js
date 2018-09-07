@@ -60,7 +60,8 @@ function record(app) {
             });
             chunks = null;
             recorder = stream = null;
-            createThumbnail(recorded).then(res => {
+            createThumbnail(recorded)
+            .then(res => {
               resolved({
                 frame: res,
                 video: recorded
