@@ -4,28 +4,33 @@
 const leftEye = document.querySelector('.cat_position_for_left_eye'); // Область левого глаза
 const   rightEye = document.querySelector('.cat_position_for_right_eye'); // Область правого глаза
 
-let coord = null;
+let posX = null, posY = null;
 
-function catEye(eye, coord) {
-    const pupil = eye.querySelector('.cat_eye');
+function moveCatEye(eye, posX, posY) {
+    // Оба глаза имеют одинаковый класс 
+    const catEye = eye.querySelector('.cat_eye');
 
-  if(coord.x < eye.getBoundingClientRect().left) pupil.style.left = `${0}%`
-  if(coord.x > eye.getBoundingClientRect().right) pupil.style.left = `${50}%`
-  if(eye.getBoundingClientRect().left < coord.x && coord.x < eye.getBoundingClientRect().right) pupil.style.left = `${25}%`
-  if(coord.y < eye.getBoundingClientRect().top) pupil.style.top = `${0}%`
-  if(coord.y > eye.getBoundingClientRect().bottom) pupil.style.top = `${50}%`
-  if(eye.getBoundingClientRect().top < coord.y && coord.y < eye.getBoundingClientRect().bottom) pupil.style.top = `${25}%`
+    if (posX < eye.getBoundingClientRect().left) {
+        catEye.style.left = `${0}%`
+    } if (posX > eye.getBoundingClientRect().right) {
+        catEye.style.left = `${50}%`
+    } if (eye.getBoundingClientRect().left < posX && posX < eye.getBoundingClientRect().right) {
+        catEye.style.left = `${25}%`
+    } if (posY < eye.getBoundingClientRect().top) {
+        catEye.style.top = `${0}%`
+    } if (posY > eye.getBoundingClientRect().bottom) {
+        catEye.style.top = `${50}%`
+    } if (eye.getBoundingClientRect().top < posY && posY < eye.getBoundingClientRect().bottom) {
+        catEye.style.top = `${25}%`
+    }
   
 }
 
 
 document.addEventListener('mousemove', event => {
-    coord = {
-        x: event.pageX,
-        y: event.pageY
-    }
-
-    catEye(leftEye, coord);
-    catEye(rightEye, coord);
+    posX = event.pageX;
+    posY = event.pageY;
+    moveCatEye(leftEye, posX, posY);
+    moveCatEye(rightEye, posX, posY);
 
 })
