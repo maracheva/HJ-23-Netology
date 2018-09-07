@@ -40,7 +40,6 @@ function record(app) {
   return new Promise((resolved, rejected) => {
       app.mode = 'preparing';
       let chunks = [];
-      let recorder = null;
 
       navigator.mediaDevices
         .getUserMedia({
@@ -50,7 +49,7 @@ function record(app) {
         .then(stream => {
           app.mode = 'recording';
           app.preview.srcObject = stream;
-          recorder = new MediaRecorder(stream);
+          let recorder = new MediaRecorder(stream);
 
           recorder.addEventListener('dataavailable', (e) => chunks
             .push(e.data));
