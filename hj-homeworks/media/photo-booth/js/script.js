@@ -109,39 +109,6 @@ function createImg(imgUrl) {
       }]
   }
 };
-// function createImg(imgUrl) {
-//   return el('figure', {}, [
-//     el('img', {src: imgUrl}),
-//     el('figcaption', {}, [
-//       el('a', {href: imgUrl, download: 'snapshot.png'}, [
-//         el('i', {class: 'material-icons'}, 'file_download')
-//       ]),
-//       el('a', {}, [
-//         el('i', {class: 'material-icons'}, 'file_upload')
-//       ]),
-//       el('a', {}, [
-//         el('i', {class: 'material-icons'}, 'delete')
-//       ])
-//     ])
-//   ]);
-// }
-
-
-// function el(tagName, attributes, children) {
-//   const element = document.createElement(tagName);
-
-//   if (typeof attributes === 'object') {
-//     Object.keys(attributes).forEach(i => element.setAttribute(i, attributes[i]));
-//   }
-
-//   if (typeof children === 'string') {
-//     element.textContent = children;
-//   } else if (children instanceof Array) {
-//     children.forEach(child => element.appendChild(child));
-//   }
-
-//   return element;
-// }
 
 // функция отправки формы
 function fetchRequest(imgData, target) {
