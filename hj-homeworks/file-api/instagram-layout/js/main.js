@@ -15,7 +15,6 @@ class iLayout {
     this.registerEvents();
   }
   registerEvents() {
-    // for (let item in this.layout) {
     this.layout.forEach(item => {
         
       this.layout[item].addEventListener('dragover', (event) => {
@@ -31,7 +30,7 @@ class iLayout {
         event.preventDefault();
         event.stopPropagation();
 
-        //type file checking
+        // проверка типа файлов
         if (!/^image\//.test(event.dataTransfer.files[0].type)) {
           removeClass('layout__item_active', event.currentTarget);
           return;
@@ -47,8 +46,6 @@ class iLayout {
         event.currentTarget.appendChild(img);
       })
     });
-    // }
-
 
     this.actionButton.addEventListener('click', (event) => {
       let images = 0;
