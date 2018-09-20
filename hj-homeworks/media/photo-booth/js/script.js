@@ -26,6 +26,23 @@ document.addEventListener('DOMContentLoaded', () => {
             errorMessage.innerText = err;
         });
 
+    // обработка событий
+    app.addEventListener('mouseenter', () => {
+        controls.style.display = 'block'
+    });
+    app.addEventListener('mouseleave', () => {
+        controls.style.display = ''
+    });
+
+    takePhotoBth.addEventListener('click', () => {
+        takePhotoBth.appendChild(getElem(el('audio', {
+            'src': './audio/click.mp3'
+        })))
+        takePhotoBth.getElementsByTagName('audio')[0].play();
+        createPhoto();
+
+    })
+
     // делаем фото
     function createPhoto() {
         const video = document.querySelector('video');
@@ -147,21 +164,4 @@ document.addEventListener('DOMContentLoaded', () => {
         )
     );
 
-   
-    // обработка событий
-    app.addEventListener('mouseenter', () => {
-        controls.style.display = 'block'
-    });
-    app.addEventListener('mouseleave', () => {
-        controls.style.display = ''
-    });
-
-    takePhotoBth.addEventListener('click', () => {
-        takePhotoBth.appendChild(getElem(el('audio', {
-            'src': './audio/click.mp3'
-        })))
-        takePhotoBth.getElementsByTagName('audio')[0].play();
-        createPhoto();
-
-    })
 })
