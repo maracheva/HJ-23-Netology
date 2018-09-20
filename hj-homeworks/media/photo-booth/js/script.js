@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
 
-
     // Запрашиваем доступ к веб-камере. Если доступ не предоставлен, показываем ошибку
     navigator.mediaDevices
         .getUserMedia({
@@ -97,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
     
-    // функция создани DOM элемента
+    // функция создания DOM элемента
     function getElem(node) {
         const element = document.createElement(node.name);
         if ((typeof node === 'string')) {
