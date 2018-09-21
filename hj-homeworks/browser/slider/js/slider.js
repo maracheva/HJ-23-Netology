@@ -1,25 +1,17 @@
 `use strict`;
 
 const sliderArray = [
-    airmax-jump.png,
-    airmax-on-foot.png,
-    airmax-playground.png,
-    airmax-top-view.png,
-    airmax.png
+    "i/airmax-jump.png",
+    "i/airmax-on-foot.png",
+    "i/airmax-playground.png",
+    "i/airmax-top-view.png",
+    "i/airmax.png"
 ]
 
-const slider = document.getElementById('slider');
-let cur = 0; // счетчик
-
-// slider.scr = sliderArray[0]; 
-slider.src = `i/${sliderArray[0]}`;
-
-let changeSlider = setInterval(() => {
-	if (cur === sliderArray.length) {
-		cur = 0;
-	}
-	slider.src = `i/${sliderArray[cur]}`;
-	++ cur;
+document.getElementById("slider").src = sliderArray[0];
+let i = 1;
+let slider = setInterval(() => {
+    document.getElementById("slider").src = sliderArray[i];
+    i++
+    if (i === sliderArray.length) i = 0;
 }, 5000);
-
-
